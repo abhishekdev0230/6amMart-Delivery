@@ -124,28 +124,61 @@ class ApiClient extends GetxService {
     }
   }
 
-  Response handleResponse(http.Response response, String uri, bool handleError) {
+  Future<Response> handleResponse(http.Response response, String uri, bool handleError) async {
     dynamic body;
     try {
       body = jsonDecode(response.body);
-    }catch(_) {}
+    } catch (_) {}
+
     Response response0 = Response(
-      body: body ?? response.body, bodyString: response.body.toString(),
-      headers: response.headers, statusCode: response.statusCode, statusText: response.reasonPhrase,
+      body: body ?? response.body,
+      bodyString: response.body.toString(),
+      headers: response.headers,
+      statusCode: response.statusCode,
+      statusText: response.reasonPhrase,
     );
-    if(response0.statusCode != 200 && response0.body != null && response0.body is !String) {
-      if(response0.body.toString().startsWith('{errors: [{code:')) {
+
+    // 🌐 Handle error formats
+    if (response0.statusCode != 200 && response0.body != null && response0.body is! String) {
+      if (response0.body.toString().startsWith('{errors: [{code:')) {
         ErrorResponse errorResponse = ErrorResponse.fromJson(response0.body);
-        response0 = Response(statusCode: response0.statusCode, body: response0.body, statusText: errorResponse.errors![0].message);
-      }else if(response0.body.toString().startsWith('{message')) {
-        response0 = Response(statusCode: response0.statusCode, body: response0.body, statusText: response0.body['message']);
+        response0 = Response(
+          statusCode: response0.statusCode,
+          body: response0.body,
+          statusText: errorResponse.errors![0].message,
+        );
+      } else if (response0.body.toString().startsWith('{message')) {
+        response0 = Response(
+          statusCode: response0.statusCode,
+          body: response0.body,
+          statusText: response0.body['message'],
+        );
       }
-    }else if(response0.statusCode != 200 && response0.body == null) {
+    } else if (response0.statusCode != 200 && response0.body == null) {
       response0 = const Response(statusCode: 0, statusText: noInternetMessage);
     }
+
+    // ✅ Save user ID if available in body
+    if (response0.statusCode == 200 &&
+        response0.body != null &&
+        response0.body is Map &&
+        response0.body['id'] != null) {
+      try {
+        final int userId = response0.body['id'];
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setInt('user_id', userId);
+        debugPrint('✅ User ID saved in SharedPreferences: $userId');
+      } catch (e) {
+        debugPrint('⚠️ Error saving user ID: $e');
+      }
+    } else {
+      debugPrint('⚠️ User ID not found in response or response not a map.');
+    }
+
     debugPrint('====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
-    if(handleError) {
-      if(response0.statusCode == 200) {
+
+    if (handleError) {
+      if (response0.statusCode == 200) {
         return response0;
       } else {
         ApiChecker.checkApi(response0);
@@ -155,6 +188,7 @@ class ApiClient extends GetxService {
       return response0;
     }
   }
+
 }
 
 class MultipartBody {

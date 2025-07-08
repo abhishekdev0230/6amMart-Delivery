@@ -48,6 +48,7 @@ class AppConstants {
   static const String makeWalletAdjustmentUri = '/api/v1/delivery-man/make-wallet-adjustment';
   static const String walletProvidedEarningListUri = '/api/v1/delivery-man/wallet-provided-earning-list';
   static const String firebaseAuthVerify = '/api/v1/auth/delivery-man/firebase-verify-token';
+  static const String updateLocation = '/api/v1/update-location';
 
 
   ///chat url

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart_delivery/api/api_client.dart';
 import 'package:sixam_mart_delivery/features/auth/domain/models/delivery_man_body_model.dart';
 import 'package:sixam_mart_delivery/common/models/response_model.dart';
@@ -77,23 +79,36 @@ class AuthController extends GetxController implements GetxService {
 
   bool _notificationLoading = false;
   bool get notificationLoading => _notificationLoading;
-
   Future<ResponseModel> login(String phone, String password) async {
     _isLoading = true;
     update();
+
     Response response = await authServiceInterface.login(phone, password);
+    debugPrint('Login API Response: ${response.body}');
+
     ResponseModel responseModel;
+
     if (response.statusCode == 200) {
-      authServiceInterface.saveUserToken(response.body['token'], response.body['zone_topic'], response.body['topic']);
+      final String token = response.body['token'];
+      final String zoneTopic = response.body['zone_topic'];
+      final String topic = response.body['topic'];
+
+
+      authServiceInterface.saveUserToken(token, zoneTopic, topic);
       await authServiceInterface.updateToken();
+
       responseModel = ResponseModel(true, 'successful');
     } else {
       responseModel = ResponseModel(false, response.statusText);
     }
+
     _isLoading = false;
     update();
     return responseModel;
   }
+
+
+
 
   Future<void> registerDeliveryMan(DeliveryManBodyModel deliveryManBody) async {
     _isLoading = true;
