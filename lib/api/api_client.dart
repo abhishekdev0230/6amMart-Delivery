@@ -159,21 +159,6 @@ class ApiClient extends GetxService {
     }
 
     // ✅ Save user ID if available in body
-    if (response0.statusCode == 200 &&
-        response0.body != null &&
-        response0.body is Map &&
-        response0.body['id'] != null) {
-      try {
-        final int userId = response0.body['id'];
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setInt('user_id', userId);
-        debugPrint('✅ User ID saved in SharedPreferences: $userId');
-      } catch (e) {
-        debugPrint('⚠️ Error saving user ID: $e');
-      }
-    } else {
-      debugPrint('⚠️ User ID not found in response or response not a map.');
-    }
 
     debugPrint('====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
 

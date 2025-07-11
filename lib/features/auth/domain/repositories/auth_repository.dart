@@ -15,8 +15,39 @@ class AuthRepository implements AuthRepositoryInterface {
 
   @override
   Future<Response> login(String phone, String password) async {
-    return await apiClient.postData(AppConstants.loginUri, {"phone": phone, "password": password}, handleError: false);
+    Response response = await apiClient.postData(
+      AppConstants.loginUri,
+      {
+        "phone": phone,
+        "password": password,
+      },
+      handleError: false,
+    );
+
+    print("Login API Response: ${response.body}"); // 👈 Yeh line help karegi debug me
+
+    if (response.statusCode == 200 && response.body != null) {
+      try {
+        var data = response.body;
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setInt('user_id', data['user_id']);
+        await prefs.setString('token', data['token']);
+        await prefs.setString('topic', data['topic']);
+        await prefs.setString('zone_topic', data['zone_topic']);
+
+        print("Saved User ID: ${data['user_id']}"); // 👈 User ID print
+      } catch (e) {
+        print("❌ Error saving user data: $e");
+      }
+    } else {
+      print("❌ Login failed. Status code: ${response.statusCode}");
+    }
+
+    return response;
   }
+
+
 
   @override
   Future<bool> registerDeliveryMan(DeliveryManBodyModel deliveryManBody, List<MultipartBody> multiParts) async {
