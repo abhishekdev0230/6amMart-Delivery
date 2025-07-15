@@ -24,7 +24,7 @@ class AuthRepository implements AuthRepositoryInterface {
       handleError: false,
     );
 
-    print("Login API Response: ${response.body}"); // 👈 Yeh line help karegi debug me
+    print("Login API Response: ${response.body}");
 
     if (response.statusCode == 200 && response.body != null) {
       try {
@@ -36,7 +36,7 @@ class AuthRepository implements AuthRepositoryInterface {
         await prefs.setString('topic', data['topic']);
         await prefs.setString('zone_topic', data['zone_topic']);
 
-        print("Saved User ID: ${data['user_id']}"); // 👈 User ID print
+        print("Saved User ID: ${data['user_id']}");
       } catch (e) {
         print("❌ Error saving user data: $e");
       }
