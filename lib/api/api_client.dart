@@ -65,6 +65,7 @@ class ApiClient extends GetxService {
     }
   }
 
+
   Future<Response> postMultipartData(String uri, Map<String, String> body, List<MultipartBody> multipartBody, {Map<String, String>? headers, bool handleError = true}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');

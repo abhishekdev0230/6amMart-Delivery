@@ -1,9 +1,5 @@
 
-import 'dart:convert';
-
 import 'package:permission_handler/permission_handler.dart';
-import 'package:pretty_http_logger/pretty_http_logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:sixam_mart_delivery/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart_delivery/features/notification/controllers/notification_controller.dart';
@@ -44,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isNotificationPermissionGranted = true;
   bool _isBatteryOptimizationGranted = true;
   Timer? _locationUpdateTimer;
-  LocationController locationController = Get.put(LocationController());
 
   @override
   void initState() {
@@ -70,22 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final orderController = Get.find<OrderController>();
     if (orderController.currentOrderList != null &&
         orderController.currentOrderList!.isNotEmpty) {
-      _startLocationUpdateTimer();
     }
-  }
-  void _startLocationUpdateTimer() {
-    _locationUpdateTimer?.cancel();
-    _locationUpdateTimer = Timer.periodic(const Duration(seconds: 2), (timer) async {
-      try {
-        Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-        locationController.updateLocationApi(
-          lat: position.latitude,
-          lng: position.longitude,
-        );
-      } catch (e) {
-        debugPrint('Location update failed: $e');
-      }
-    });
   }
 
   @override
@@ -113,7 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Listen to the app lifecycle state changes
   void _onStateChanged(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.detached:
@@ -541,48 +520,9 @@ class CashInHandCardShimmer extends StatelessWidget {
 
 
 
-
 }
 
-class LocationController extends GetxController {
-  Future<void> updateLocationApi({required double lat, required double lng}) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final int? userId = prefs.getInt('user_id');
 
-    if (userId == null) {
-      debugPrint("User ID not found in session.");
-      return;
-    }
 
-    var request = {
-      'user_id': userId,
-      'latitude': lat,
-      'longitude': lng,
-    };
 
-    HttpWithMiddleware http = HttpWithMiddleware.build(middlewares: [
-      HttpLogger(logLevel: LogLevel.BODY),
-    ]);
-
-    try {
-      var response = await http.post(
-        Uri.parse("${AppConstants.baseUrl}${AppConstants.updateLocation}"),
-        body: jsonEncode(request),
-        headers: {
-          'content-type': 'application/json',
-          'accept': 'application/json',
-        },
-      );
-
-      Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['status'] == true) {
-        debugPrint("Location updated successfully.");
-      } else {
-        debugPrint("Failed to update location: ${jsonResponse['message']}");
-      }
-    } catch (error) {
-      debugPrint("Error in updateLocationApi: $error");
-    }
-  }
-}
 

@@ -105,7 +105,7 @@ class ProfileController extends GetxController implements GetxService {
 
   void startLocationRecord() {
     _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       recordLocation();
     });
   }
@@ -119,15 +119,18 @@ class ProfileController extends GetxController implements GetxService {
     String address = await profileServiceInterface.addressPlaceMark(locationResult);
 
     _recordLocation = RecordLocationBodyModel(
-      location: address, latitude: locationResult.latitude, longitude: locationResult.longitude,
+      location: address,
+      latitude: locationResult.latitude,
+      longitude: locationResult.longitude,
     );
 
-    if(Get.find<SplashController>().configModel!.webSocketStatus!) {
+    if (Get.find<SplashController>().configModel!.webSocketStatus!) {
       await profileServiceInterface.recordWebSocketLocation(_recordLocation!);
     } else {
       await profileServiceInterface.recordLocation(_recordLocation!);
     }
   }
+
 
   void setBackgroundNotificationActive(bool isActive) {
     _backgroundNotification = isActive;
