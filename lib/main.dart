@@ -1,16 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui';
 import 'package:flutter/services.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_background_service_android/flutter_background_service_android.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
-import 'package:sixam_mart_delivery/features/address/domain/models/record_location_body_model.dart';
 import 'package:sixam_mart_delivery/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart_delivery/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart_delivery/features/splash/controllers/splash_controller.dart';
@@ -22,21 +12,24 @@ import 'package:sixam_mart_delivery/theme/dark_theme.dart';
 import 'package:sixam_mart_delivery/theme/light_theme.dart';
 import 'package:sixam_mart_delivery/util/app_constants.dart';
 import 'package:sixam_mart_delivery/util/messages.dart';
-import 'package:sixam_mart_delivery/features/profile/domain/services/profile_service_interface.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'helper/get_di.dart' as di;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
-  if (!GetPlatform.isWeb) {
+  if(!GetPlatform.isWeb) {
     HttpOverrides.global = MyHttpOverrides();
   }
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (GetPlatform.isAndroid) {
+  if(GetPlatform.isAndroid) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
         apiKey: "AIzaSyCc3OCd5I2xSlnftZ4bFAbuCzMhgQHLivA",
@@ -45,83 +38,25 @@ Future<void> main() async {
         projectId: "stackmart-500c7",
       ),
     );
-  } else {
+  }else {
     await Firebase.initializeApp();
   }
 
-  final languages = await di.init();
-
-  await initializeBackgroundService(); // 👈 add this
-  await requestPermissions(); // 👈 ask location and bg location permissions
+  Map<String, Map<String, String>> languages = await di.init();
 
   NotificationBodyModel? body;
   try {
     if (GetPlatform.isMobile) {
       final RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
-      if (remoteMessage != null) {
+      if(remoteMessage != null){
         body = NotificationHelper.convertNotification(remoteMessage.data);
       }
       await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
-  } catch (_) {}
+  }catch(_) {}
 
   runApp(MyApp(languages: languages, body: body));
-}
-
-Future<void> requestPermissions() async {
-  await Permission.location.request();
-  await Permission.locationAlways.request();
-  await Permission.notification.request();
-}
-
-Future<void> initializeBackgroundService() async {
-  final service = FlutterBackgroundService();
-
-  await service.configure(
-    androidConfiguration: AndroidConfiguration(
-      onStart: onStart,
-      autoStart: true,
-      isForegroundMode: true,
-      notificationChannelId: 'location_channel',
-      initialNotificationTitle: 'Delivery Tracker',
-      initialNotificationContent: 'Tracking in background...',
-    ),
-    iosConfiguration: IosConfiguration(),
-  );
-
-  await service.startService();
-}
-
-// 🌍 Background callback
-void onStart(ServiceInstance service) {
-  DartPluginRegistrant.ensureInitialized();
-
-  Timer.periodic(const Duration(minutes: 5), (timer) async {
-    if (!Get.isRegistered<SplashController>()) {
-      await di.init(); // Ensure dependencies are initialized
-    }
-
-    final Position location = await Geolocator.getCurrentPosition();
-    final profileService = Get.find<ProfileServiceInterface>();
-    final address = await profileService.addressPlaceMark(location);
-
-    final locationData = RecordLocationBodyModel(
-      latitude: location.latitude,
-      longitude: location.longitude,
-      location: address,
-    );
-
-    final splashController = Get.find<SplashController>();
-
-    if (splashController.configModel?.webSocketStatus == true) {
-      await profileService.recordWebSocketLocation(locationData);
-    } else {
-      await profileService.recordLocation(locationData);
-    }
-
-    print('📍 Background Location sent: ${location.latitude}, ${location.longitude}');
-  });
 }
 
 class MyApp extends StatelessWidget {
@@ -141,7 +76,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (GetPlatform.isWeb) {
+    if(GetPlatform.isWeb) {
       Get.find<SplashController>().initSharedData();
       _route();
     }
@@ -157,26 +92,21 @@ class MyApp extends StatelessWidget {
     return GetBuilder<ThemeController>(builder: (themeController) {
       return GetBuilder<LocalizationController>(builder: (localizeController) {
         return GetBuilder<SplashController>(builder: (splashController) {
-          return (GetPlatform.isWeb && splashController.configModel == null)
-              ? const SizedBox()
-              : GetMaterialApp(
-            title: AppConstants.appName,
-            debugShowCheckedModeBanner: false,
-            navigatorKey: Get.key,
-            theme: themeController.darkTheme ? dark : light,
-            locale: localizeController.locale,
-            translations: Messages(languages: languages),
-            fallbackLocale: Locale(AppConstants.languages[0].languageCode!, AppConstants.languages[0].countryCode),
-            initialRoute: RouteHelper.getSplashRoute(body),
-            getPages: RouteHelper.routes,
-            defaultTransition: Transition.topLevel,
-            transitionDuration: const Duration(milliseconds: 500),
-            builder: (BuildContext context, widget) {
-              return MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1)),
-                child: widget!,
-              );
-            },
+          return (GetPlatform.isWeb && splashController.configModel == null) ? const SizedBox() : GetMaterialApp(
+              title: AppConstants.appName,
+              debugShowCheckedModeBanner: false,
+              navigatorKey: Get.key,
+              theme: themeController.darkTheme ? dark : light,
+              locale: localizeController.locale,
+              translations: Messages(languages: languages),
+              fallbackLocale: Locale(AppConstants.languages[0].languageCode!, AppConstants.languages[0].countryCode),
+              initialRoute: RouteHelper.getSplashRoute(body),
+              getPages: RouteHelper.routes,
+              defaultTransition: Transition.topLevel,
+              transitionDuration: const Duration(milliseconds: 500),
+              builder: (BuildContext context, widget) {
+                return MediaQuery(data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1)), child: widget!);
+              }
           );
         });
       });

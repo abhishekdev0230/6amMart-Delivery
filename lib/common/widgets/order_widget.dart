@@ -1,5 +1,6 @@
 import 'package:sixam_mart_delivery/features/order/domain/models/order_model.dart';
 import 'package:sixam_mart_delivery/helper/route_helper.dart';
+import 'package:sixam_mart_delivery/new/map_screen.dart';
 import 'package:sixam_mart_delivery/util/dimensions.dart';
 import 'package:sixam_mart_delivery/util/images.dart';
 import 'package:sixam_mart_delivery/util/styles.dart';
@@ -98,27 +99,58 @@ class OrderWidget extends StatelessWidget {
           const SizedBox(width: Dimensions.paddingSizeSmall),
           Expanded(child: CustomButtonWidget(
             height: 45,
+            // onPressed: () async {
+            //   String url;
+            //   if(parcel && (orderModel.orderStatus == 'picked_up')) {
+            //     url = 'https://www.google.com/maps/dir/?api=1&destination=${orderModel.receiverDetails!.latitude}'
+            //         ',${orderModel.receiverDetails!.longitude}&mode=d';
+            //   }else if(parcel) {
+            //     url = 'https://www.google.com/maps/dir/?api=1&destination=${orderModel.deliveryAddress!.latitude}'
+            //         ',${orderModel.deliveryAddress!.longitude}&mode=d';
+            //   }else if(orderModel.orderStatus == 'picked_up') {
+            //     url = 'https://www.google.com/maps/dir/?api=1&destination=${orderModel.deliveryAddress!.latitude}'
+            //         ',${orderModel.deliveryAddress!.longitude}&mode=d';
+            //   }else {
+            //     url = 'https://www.google.com/maps/dir/?api=1&destination=${orderModel.storeLat ?? '0'}'
+            //         ',${orderModel.storeLng ?? '0'}&mode=d';
+            //   }
+            //   if (await canLaunchUrlString(url)) {
+            //     Get.
+            //     print("bhcklsdjckjilsddsklsdkjcfljiks");
+            //     // await launchUrlString(url, mode: LaunchMode.externalApplication);
+            //   } else {
+            //     showCustomSnackBar('${'could_not_launch'.tr} $url');
+            //   }
+            // },
             onPressed: () async {
-              String url;
-              if(parcel && (orderModel.orderStatus == 'picked_up')) {
-                url = 'https://www.google.com/maps/dir/?api=1&destination=${orderModel.receiverDetails!.latitude}'
-                    ',${orderModel.receiverDetails!.longitude}&mode=d';
-              }else if(parcel) {
-                url = 'https://www.google.com/maps/dir/?api=1&destination=${orderModel.deliveryAddress!.latitude}'
-                    ',${orderModel.deliveryAddress!.longitude}&mode=d';
-              }else if(orderModel.orderStatus == 'picked_up') {
-                url = 'https://www.google.com/maps/dir/?api=1&destination=${orderModel.deliveryAddress!.latitude}'
-                    ',${orderModel.deliveryAddress!.longitude}&mode=d';
-              }else {
-                url = 'https://www.google.com/maps/dir/?api=1&destination=${orderModel.storeLat ?? '0'}'
-                    ',${orderModel.storeLng ?? '0'}&mode=d';
-              }
-              if (await canLaunchUrlString(url)) {
-                await launchUrlString(url, mode: LaunchMode.externalApplication);
+              double lat = 0.0;
+              double lng = 0.0;
+
+              if (parcel) {
+                if (orderModel.orderStatus == 'picked_up') {
+                  lat = double.tryParse(orderModel.receiverDetails?.latitude?.toString() ?? '') ?? 0.0;
+                  lng = double.tryParse(orderModel.receiverDetails?.longitude?.toString() ?? '') ?? 0.0;
+                } else {
+                  lat = double.tryParse(orderModel.deliveryAddress?.latitude?.toString() ?? '') ?? 0.0;
+                  lng = double.tryParse(orderModel.deliveryAddress?.longitude?.toString() ?? '') ?? 0.0;
+                }
               } else {
-                showCustomSnackBar('${'could_not_launch'.tr} $url');
+                if (orderModel.orderStatus == 'picked_up') {
+                  lat = double.tryParse(orderModel.deliveryAddress?.latitude?.toString() ?? '') ?? 0.0;
+                  lng = double.tryParse(orderModel.deliveryAddress?.longitude?.toString() ?? '') ?? 0.0;
+                } else {
+                  lat = double.tryParse(orderModel.storeLat?.toString() ?? '') ?? 0.0;
+                  lng = double.tryParse(orderModel.storeLng?.toString() ?? '') ?? 0.0;
+                }
+              }
+
+              if (lat != 0.0 && lng != 0.0) {
+                Get.to(() => MapScreen(destinationLat: lat, destinationLng: lng));
+              } else {
+                showCustomSnackBar('Invalid location data.');
               }
             },
+
             buttonText: 'direction'.tr,
             icon: Icons.directions,
           )),
