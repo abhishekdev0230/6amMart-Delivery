@@ -33,12 +33,23 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
-    _countryDialCode = Get.find<AuthController>().getUserCountryDialCode().isNotEmpty ? Get.find<AuthController>().getUserCountryDialCode()
-        : CountryCode.fromCountryCode(Get.find<SplashController>().configModel!.country!).dialCode;
-    _countryCode = Get.find<AuthController>().getUserCountryCode().isNotEmpty ? Get.find<AuthController>().getUserCountryCode()
-        : CountryCode.fromCountryCode(Get.find<SplashController>().configModel!.country!).code;
-    _phoneController.text =  Get.find<AuthController>().getUserNumber();
-    _passwordController.text = Get.find<AuthController>().getUserPassword();
+
+    final splashController = Get.find<SplashController>();
+    final authController = Get.find<AuthController>();
+
+    String fallbackCountry = splashController.configModel?.country ?? 'IN'; // fallback to India
+    CountryCode countryCode = CountryCode.fromCountryCode(fallbackCountry);
+
+    _countryDialCode = authController.getUserCountryDialCode().isNotEmpty
+        ? authController.getUserCountryDialCode()
+        : countryCode.dialCode ?? '+91'; // fallback to +91
+
+    _countryCode = authController.getUserCountryCode().isNotEmpty
+        ? authController.getUserCountryCode()
+        : countryCode.code ?? 'IN'; // fallback to IN
+
+    _phoneController.text = authController.getUserNumber();
+    _passwordController.text = authController.getUserPassword();
   }
 
   @override
