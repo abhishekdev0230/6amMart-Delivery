@@ -50,6 +50,7 @@ dependencies:
   flutter_background_service: ^5.1.0
   flutter_polyline_points: ^2.1.0
 
+
 dependency_overrides:
   collection: ^1.19.0
   web: ^1.0.0
