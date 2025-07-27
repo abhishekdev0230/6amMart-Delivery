@@ -1,34 +1,50 @@
 {
   "project_info": {
-    "project_number": "491987943015",
-    "project_id": "stackmart-500c7",
-    "storage_bucket": "stackmart-500c7.appspot.com"
+    "project_number": "561809267214",
+    "firebase_url": "https://my-food-kart-default-rtdb.firebaseio.com",
+    "project_id": "my-food-kart",
+    "storage_bucket": "my-food-kart.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:491987943015:android:fe79b69339834d5c8f1ec2",
+        "mobilesdk_app_id": "1:561809267214:android:f33416aa143f5728983a5f",
         "android_client_info": {
-          "package_name": "com.sixamtech.sixam_mart_delivery_app"
+          "package_name": "com.myfoodkart.driverapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
+          "client_id": "561809267214-3j89ohijap9efdeuqm0b91htkdj3bprn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myfoodkart.driverapp",
+            "certificate_hash": "cea0819a822d3821c276215ee2c428646caf87cb"
+          }
+        },
+        {
+          "client_id": "561809267214-n324m1ahl9gin6lu6iheopuirl99sjis.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCc3OCd5I2xSlnftZ4bFAbuCzMhgQHLivA"
+          "current_key": "AIzaSyAqR7bKHfkuSB91392FCzZA1OTOMmoxrKY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
+              "client_id": "561809267214-n324m1ahl9gin6lu6iheopuirl99sjis.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "561809267214-23vthlf5maj8l5b52j5o1airsjs6tr4p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myfoodkart.driverapp"
+              }
             }
           ]
         }
@@ -36,28 +52,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:491987943015:android:9795ba69e89c684b8f1ec2",
+        "mobilesdk_app_id": "1:561809267214:android:dbd60207c7263955983a5f",
         "android_client_info": {
-          "package_name": "com.sixamtech.sixam_mart_store_app"
+          "package_name": "com.myfoodkart.seller"
         }
       },
       "oauth_client": [
         {
-          "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
+          "client_id": "561809267214-n324m1ahl9gin6lu6iheopuirl99sjis.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCc3OCd5I2xSlnftZ4bFAbuCzMhgQHLivA"
+          "current_key": "AIzaSyAqR7bKHfkuSB91392FCzZA1OTOMmoxrKY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
+              "client_id": "561809267214-n324m1ahl9gin6lu6iheopuirl99sjis.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "561809267214-23vthlf5maj8l5b52j5o1airsjs6tr4p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myfoodkart.driverapp"
+              }
             }
           ]
         }
@@ -65,28 +88,43 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:491987943015:android:a6fb4303cc4bf3d18f1ec2",
+        "mobilesdk_app_id": "1:561809267214:android:cd2d7400967f5bab983a5f",
         "android_client_info": {
-          "package_name": "com.sixamtech.sixam_mart_user"
+          "package_name": "com.myfoodkart.sellerapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
+          "client_id": "561809267214-6a4b3kcctg0g6kb45hu7706tq4ciegt6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myfoodkart.sellerapp",
+            "certificate_hash": "cea0819a822d3821c276215ee2c428646caf87cb"
+          }
+        },
+        {
+          "client_id": "561809267214-n324m1ahl9gin6lu6iheopuirl99sjis.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCc3OCd5I2xSlnftZ4bFAbuCzMhgQHLivA"
+          "current_key": "AIzaSyAqR7bKHfkuSB91392FCzZA1OTOMmoxrKY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
+              "client_id": "561809267214-n324m1ahl9gin6lu6iheopuirl99sjis.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "561809267214-23vthlf5maj8l5b52j5o1airsjs6tr4p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myfoodkart.driverapp"
+              }
             }
           ]
         }
@@ -94,28 +132,51 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:491987943015:android:0fe481bb315de1de8f1ec2",
+        "mobilesdk_app_id": "1:561809267214:android:55bcfbb072f3563c983a5f",
         "android_client_info": {
-          "package_name": "com.sixamtech.stack_food_delivery"
+          "package_name": "com.myfoodkart.userapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
+          "client_id": "561809267214-e72a9tqfg7dr1q7kvhht404lqg3voli4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myfoodkart.userapp",
+            "certificate_hash": "b1557aa994eee6b102e095abaf65ece3f6359a30"
+          }
+        },
+        {
+          "client_id": "561809267214-ud65cduhmnr9le9bgajg857lme9s3l61.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myfoodkart.userapp",
+            "certificate_hash": "cea0819a822d3821c276215ee2c428646caf87cb"
+          }
+        },
+        {
+          "client_id": "561809267214-n324m1ahl9gin6lu6iheopuirl99sjis.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCc3OCd5I2xSlnftZ4bFAbuCzMhgQHLivA"
+          "current_key": "AIzaSyAqR7bKHfkuSB91392FCzZA1OTOMmoxrKY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
+              "client_id": "561809267214-n324m1ahl9gin6lu6iheopuirl99sjis.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "561809267214-23vthlf5maj8l5b52j5o1airsjs6tr4p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myfoodkart.driverapp"
+              }
             }
           ]
         }
@@ -123,57 +184,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:491987943015:android:de46aa9776b1b4888f1ec2",
+        "mobilesdk_app_id": "1:561809267214:android:e0851d30cc217a72983a5f",
         "android_client_info": {
-          "package_name": "com.sixamtech.stack_food_user"
+          "package_name": "com.myfoodkartseller.sellerapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
+          "client_id": "561809267214-n324m1ahl9gin6lu6iheopuirl99sjis.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCc3OCd5I2xSlnftZ4bFAbuCzMhgQHLivA"
+          "current_key": "AIzaSyAqR7bKHfkuSB91392FCzZA1OTOMmoxrKY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
+              "client_id": "561809267214-n324m1ahl9gin6lu6iheopuirl99sjis.apps.googleusercontent.com",
               "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:491987943015:android:63ecc08c0433bf7c8f1ec2",
-        "android_client_info": {
-          "package_name": "com.sixamtech.stack_food_vandor"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCc3OCd5I2xSlnftZ4bFAbuCzMhgQHLivA"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
+            },
             {
-              "client_id": "491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com",
-              "client_type": 3
+              "client_id": "561809267214-23vthlf5maj8l5b52j5o1airsjs6tr4p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myfoodkart.driverapp"
+              }
             }
           ]
         }

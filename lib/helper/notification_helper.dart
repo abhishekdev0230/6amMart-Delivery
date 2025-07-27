@@ -50,6 +50,7 @@ class NotificationHelper {
       if (kDebugMode) {
         print("onMessage message type:${message.data['type']}");
         print("onMessage message:${message.data}");
+
       }
 
       if(message.data['type'] == 'message' && Get.currentRoute.startsWith(RouteHelper.chatScreen)){
@@ -253,10 +254,6 @@ Future<ServiceRequestResult> _startService(String? orderId, NotificationType not
       notificationTitle: notificationType == NotificationType.order_request ? 'Order Notification' : 'You have been assigned a new order ($orderId)',
       notificationText: notificationType == NotificationType.order_request ? 'New order request arrived, you can confirmed this.' : 'Open app and check order details.',
       callback: startCallback,
-      // notificationButtons: [
-      //   const NotificationButton(id: '1', text: 'Open'),
-      // ],
-      // notificationInitialRoute: RouteHelper.getOrderDetailsRoute(int.parse(orderId!), fromNotification: true),
     );
   }
 }
@@ -345,10 +342,6 @@ class MyTaskHandler extends TaskHandler {
     stopService();
   }
 
-  // Called when the notification itself is pressed.
-  //
-  // AOS: "android.permission.SYSTEM_ALERT_WINDOW" permission must be granted
-  // for this function to be called.
   @override
   void onNotificationPressed() {
     debugPrint('onNotificationPressed');
@@ -361,6 +354,10 @@ class MyTaskHandler extends TaskHandler {
   //
   // AOS: only work Android 14+
   // iOS: only work iOS 10+
+  void onForegroundTaskEvent() async {
+    final player = AudioPlayer();
+    await player.play(AssetSource('notification.mp3'));
+  }
   @override
   void onNotificationDismissed() {
     FlutterForegroundTask.updateService(

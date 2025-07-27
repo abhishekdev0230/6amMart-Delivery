@@ -2,12 +2,15 @@ import 'package:sixam_mart_delivery/features/language/domain/models/language_mod
 import 'package:sixam_mart_delivery/util/images.dart';
 
 class AppConstants {
-  static const String appName = '6amMart Delivery';
+  static const String appName = 'My Food Kart Delivery';
   static const double appVersion = 3.1; ///Flutter sdk 3.29.3
 
   // static const String baseUrl = 'https://6ammart-admin.6amtech.com';
-  static const String baseUrl = 'https://6Kart.in';
-  ///.....old....
+  ///...............dev.................
+  // static const String baseUrl = 'https://6Kart.in';
+  ///.........live.................
+  static const String baseUrl = 'https://admin.myfoodkart.co.in';
+  ///......................old.............
   // static const String googleMapkey = 'AIzaSyDc60dcf4WH97EvrkRclSOwfKXumPWMgjs';
   static const String googleMapkey = 'AlzaSykOgM2u0Csg8uEo8Sz8xeU96g8_eqx2pyI';
 
