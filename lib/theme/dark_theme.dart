@@ -48,9 +48,13 @@ ThemeData dark = ThemeData(
     surfaceTintColor: AppColors.darkPopup,
   ),
 
-  dialogTheme: const DialogTheme(
+  // dialogTheme:  DialogTheme(
+  //   surfaceTintColor: Colors.white10,
+  // ),
+  dialogTheme: const DialogThemeData(
     surfaceTintColor: Colors.white10,
   ),
+
 
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     shape: RoundedRectangleBorder(

@@ -48,8 +48,11 @@ ThemeData light = ThemeData(
     surfaceTintColor: AppColors.white,
   ),
 
-  dialogTheme: const DialogTheme(
-    surfaceTintColor: AppColors.white,
+  // dialogTheme: const DialogTheme(
+  //   surfaceTintColor: AppColors.white,
+  // ),
+  dialogTheme: const DialogThemeData(
+    surfaceTintColor: Colors.white10,
   ),
 
   floatingActionButtonTheme: FloatingActionButtonThemeData(

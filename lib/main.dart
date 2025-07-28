@@ -61,6 +61,12 @@ Future<void> main() async {
     );
   } else {
     await Firebase.initializeApp();
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
   }
 
   Map<String, Map<String, String>> languages = await di.init();
@@ -77,6 +83,10 @@ Future<void> main() async {
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+        print("🔔 Foreground Notification Received:");
+        print("Title: ${message.notification?.title}");
+        print("Body: ${message.notification?.body}");
+        print("Data: ${message.data}");
         NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin);
         await _playNotificationSound(); // Foreground sound
       });

@@ -27,14 +27,21 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location to manage coverage of restaurant and also show the customer and restaurant distance.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>This app requires access to the camera to upload customer profile picture and voice.</string>
+	<string>This app requires access to the microphone for voice input.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the gallery for update user profile.</string>
+	<string>This app requires access to the photo library to update user profile picture.</string>
+
+	<!-- Push Notification Permissions -->
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This identifier will be used to deliver personalized ads to you.</string>
+
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
