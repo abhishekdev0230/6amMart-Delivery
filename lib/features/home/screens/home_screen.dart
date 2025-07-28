@@ -1,4 +1,5 @@
 
+import 'package:app_tracking_transparency/app_tracking_transparency.dart' show AppTrackingTransparency, TrackingStatus;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:sixam_mart_delivery/features/auth/controllers/auth_controller.dart';
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
+    initTracking();
     _checkSystemNotification();
 
     _listener = AppLifecycleListener(onStateChange: _onStateChanged);
@@ -454,6 +455,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> initTracking() async {
+    final status = await AppTrackingTransparency.trackingAuthorizationStatus;
+
+    if (status == TrackingStatus.notDetermined) {
+      final result = await AppTrackingTransparency.requestTrackingAuthorization();
+      print("Tracking status: $result");
+    } else {
+      print("Tracking status: $status");
+    }
   }
 
   void _checkPermission(Function callback) async {
