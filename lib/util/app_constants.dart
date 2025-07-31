@@ -3,9 +3,9 @@ import 'package:sixam_mart_delivery/util/images.dart';
 
 class AppConstants {
   static const String appName = 'My Food Kart Delivery';
-  static const double appVersion = 3.1; ///Flutter sdk 3.29.3
+  static const double appVersion = 3.1;
 
-  // static const String baseUrl = 'https://6ammart-admin.6amtech.com';
+  // static const String baseUrl = 'https://myfoodkart-admin.6amtech.com';
   ///...............dev.................
   // static const String baseUrl = 'https://6Kart.in';
   ///.........live.................
