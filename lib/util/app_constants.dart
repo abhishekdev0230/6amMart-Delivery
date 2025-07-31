@@ -12,7 +12,7 @@ class AppConstants {
   static const String baseUrl = 'https://admin.myfoodkart.co.in';
   ///......................old.............
   // static const String googleMapkey = 'AIzaSyDc60dcf4WH97EvrkRclSOwfKXumPWMgjs';
-  static const String googleMapkey = 'AlzaSykOgM2u0Csg8uEo8Sz8xeU96g8_eqx2pyI';
+  static const String googleMapkey = 'AIzaSyDc60dcf4WH97EvrkRclSOwfKXumPWMgjs';
 
   static const String configUri = '/api/v1/config';
   static const String forgetPasswordUri = '/api/v1/auth/delivery-man/forgot-password';
