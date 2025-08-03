@@ -151,13 +151,34 @@ class _NewRequestDialogWidgetState extends State<NewRequestDialogWidget> {
     _timer?.cancel();
   }
 
+  // void _startAlarm() {
+  //   AudioPlayer audio = AudioPlayer();
+  //   audio.play(AssetSource('notification.mp3'));
+  //   _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+  //     audio.play(AssetSource('notification.mp3'));
+  //   });
+  // }
+
   void _startAlarm() {
-    AudioPlayer audio = AudioPlayer();
+    final audio = AudioPlayer();
+    audio.setAudioContext(AudioContext(
+      android: AudioContextAndroid(
+        isSpeakerphoneOn: true,
+        stayAwake: true,
+        contentType: AndroidContentType.music,
+        usageType: AndroidUsageType.notification, // 👈 critical for Android 15+
+        audioFocus: AndroidAudioFocus.gain,
+      ),
+    ));
+
+    audio.setReleaseMode(ReleaseMode.stop); // Optional
+
     audio.play(AssetSource('notification.mp3'));
-    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 3), (_) {
       audio.play(AssetSource('notification.mp3'));
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
