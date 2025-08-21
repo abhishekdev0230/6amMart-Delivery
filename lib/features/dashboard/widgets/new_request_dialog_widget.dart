@@ -39,9 +39,9 @@
 //
 //   void _startAlarm() {
 //     AudioPlayer audio = AudioPlayer();
-//     audio.play(AssetSource('notification.mp3'));
+//     audio.play(AssetSource('notification.wav'));
 //     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-//       audio.play(AssetSource('notification.mp3'));
+//       audio.play(AssetSource('notification.wav'));
 //     });
 //   }
 //
@@ -153,9 +153,9 @@ class _NewRequestDialogWidgetState extends State<NewRequestDialogWidget> {
 
   // void _startAlarm() {
   //   AudioPlayer audio = AudioPlayer();
-  //   audio.play(AssetSource('notification.mp3'));
+  //   audio.play(AssetSource('notification.wav'));
   //   _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-  //     audio.play(AssetSource('notification.mp3'));
+  //     audio.play(AssetSource('notification.wav'));
   //   });
   // }
 
@@ -173,9 +173,9 @@ class _NewRequestDialogWidgetState extends State<NewRequestDialogWidget> {
 
     audio.setReleaseMode(ReleaseMode.stop); // Optional
 
-    audio.play(AssetSource('notification.mp3'));
+    audio.play(AssetSource('notification.wav'));
     _timer = Timer.periodic(const Duration(seconds: 3), (_) {
-      audio.play(AssetSource('notification.mp3'));
+      audio.play(AssetSource('notification.wav'));
     });
   }
 

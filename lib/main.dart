@@ -23,23 +23,9 @@ import 'package:sixam_mart_delivery/theme/light_theme.dart';
 import 'package:sixam_mart_delivery/features/notification/domain/models/notification_body_model.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-final AudioPlayer _audioPlayer = AudioPlayer();
 
-/// Background Message Handler
-Future<void> myBackgroundMessageHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  await _playNotificationSound();
-}
 
-/// Play audio from assets
-Future<void> _playNotificationSound() async {
-  try {
-    await _audioPlayer.setReleaseMode(ReleaseMode.stop);
-    await _audioPlayer.play(AssetSource('notification.mp3'));
-  } catch (e) {
-    print("Error playing sound: $e");
-  }
-}
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,8 +40,12 @@ Future<void> main() async {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
         apiKey: "AIzaSyAqR7bKHfkuSB91392FCzZA1OTOMmoxrKY",
+        authDomain: "my-food-kart.firebaseapp.com",
+        databaseURL: "https://my-food-kart-default-rtdb.firebaseio.com",
+        storageBucket: "my-food-kart.firebasestorage.app",
         appId: "1:561809267214:android:dbd60207c7263955983a5f",
         messagingSenderId: "561809267214",
+        measurementId: "G-23HJX7B0VF",
         projectId: "my-food-kart",
       ),
     );
@@ -78,18 +68,8 @@ Future<void> main() async {
       if (remoteMessage != null) {
         body = NotificationHelper.convertNotification(remoteMessage.data);
       }
-
       await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
-
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-        print("🔔 Foreground Notification Received:");
-        print("Title: ${message.notification?.title}");
-        print("Body: ${message.notification?.body}");
-        print("Data: ${message.data}");
-        NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin);
-        await _playNotificationSound(); // Foreground sound
-      });
     }
   } catch (_) {}
 

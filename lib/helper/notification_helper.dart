@@ -132,14 +132,14 @@ class NotificationHelper {
           await showBigTextNotification(title, body!, notificationBody, fln);
         }
       }else {
-        await showBigTextNotification(title, body!, notificationBody, fln);
+        await showBigTextNotification(title, body ?? "", notificationBody, fln);
       }
     }
   }
 
   static Future<void> showTextNotification(String title, String body, NotificationBodyModel notificationBody, FlutterLocalNotificationsPlugin fln) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'myfoodkart', AppConstants.appName, playSound: true,
+      '6ammart', AppConstants.appName, playSound: true,
       importance: Importance.max, priority: Priority.max, sound: RawResourceAndroidNotificationSound('notification'),
     );
     const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
@@ -152,7 +152,7 @@ class NotificationHelper {
       contentTitle: title, htmlFormatContentTitle: true,
     );
     AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'myfoodkart', AppConstants.appName, importance: Importance.max,
+      '6ammart', AppConstants.appName, importance: Importance.max,
       styleInformation: bigTextStyleInformation, priority: Priority.max, playSound: true,
       sound: const RawResourceAndroidNotificationSound('notification'),
     );
@@ -169,7 +169,7 @@ class NotificationHelper {
       summaryText: body, htmlFormatSummaryText: true,
     );
     final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'myfoodkart', AppConstants.appName,
+      '6ammart', AppConstants.appName,
       largeIcon: FilePathAndroidBitmap(largeIconPath), priority: Priority.max, playSound: true,
       styleInformation: bigPictureStyleInformation, importance: Importance.max,
       sound: const RawResourceAndroidNotificationSound('notification'),
@@ -302,7 +302,7 @@ final AudioPlayer _audioPlayer = AudioPlayer();
 class MyTaskHandler extends TaskHandler {
 
   void _playAudio() {
-    _audioPlayer.play(AssetSource('notification.mp3'));
+    _audioPlayer.play(AssetSource('notification.wav'));
   }
 
   // Called when the task is started.
@@ -354,10 +354,7 @@ class MyTaskHandler extends TaskHandler {
   //
   // AOS: only work Android 14+
   // iOS: only work iOS 10+
-  void onForegroundTaskEvent() async {
-    final player = AudioPlayer();
-    await player.play(AssetSource('notification.mp3'));
-  }
+
   @override
   void onNotificationDismissed() {
     FlutterForegroundTask.updateService(
