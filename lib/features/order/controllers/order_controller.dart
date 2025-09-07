@@ -184,10 +184,7 @@ class OrderController extends GetxController implements GetxService {
     update();
   }
 
-  Future<bool> updateOrderStatus(OrderModel currentOrder, String status,
-      {bool back = false,
-      String? reason,
-      bool? parcel = false,
+  Future<bool> updateOrderStatus(OrderModel currentOrder, String status, {bool back = false, String? reason, bool? parcel = false,
       bool gotoDashboard = false}) async {
     _isLoading = true;
     update();

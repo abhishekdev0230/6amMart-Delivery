@@ -5,15 +5,18 @@ class AppConstants {
   static const String appName = 'My Food Kart Delivery';
   static const double appVersion = 3.1;
 
-  ///...............dev.................
-  // static const String baseUrl = 'https://6Kart.in';
-  ///.........live.................
-  static const String baseUrl = 'https://admin.myfoodkart.co.in';
-  ///......................old.............
+  ///........................dev.................
+  static const String baseUrl = 'https://6Kart.in';
+  ///........................live.................
+  // static const String baseUrl = 'https://admin.myfoodkart.co.in';
+  ///........................old................
   // static const String googleMapkey = 'AIzaSyDc60dcf4WH97EvrkRclSOwfKXumPWMgjs';
+  ///........................new................
   static const String googleMapkey = 'AIzaSyDc60dcf4WH97EvrkRclSOwfKXumPWMgjs';
 
   static const String configUri = '/api/v1/config';
+  static const String razorPayQr = '/api/v1/razorPay';
+  static const String checkPayment = '/api/v1/check-payment';
   static const String forgetPasswordUri = '/api/v1/auth/delivery-man/forgot-password';
   static const String verifyTokenUri = '/api/v1/auth/delivery-man/verify-token';
   static const String resetPasswordUri = '/api/v1/auth/delivery-man/reset-password';
