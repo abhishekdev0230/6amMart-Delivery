@@ -15,8 +15,8 @@ class AppConstants {
   static const String googleMapkey = 'AIzaSyDc60dcf4WH97EvrkRclSOwfKXumPWMgjs';
 
   static const String configUri = '/api/v1/config';
-  static const String razorPayQr = '/api/v1/razorPay';
-  static const String checkPayment = '/api/v1/check-payment';
+  static const String razorPayQr = '/api/v1/delivery-man/razorPay';
+  static const String checkPayment = '/api/v1/delivery-man/check-payment';
   static const String forgetPasswordUri = '/api/v1/auth/delivery-man/forgot-password';
   static const String verifyTokenUri = '/api/v1/auth/delivery-man/verify-token';
   static const String resetPasswordUri = '/api/v1/auth/delivery-man/reset-password';

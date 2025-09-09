@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:pretty_http_logger/pretty_http_logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart_delivery/util/app_constants.dart';
 
 class QrCode extends StatefulWidget {
@@ -72,6 +73,9 @@ class _QrCodeState extends State<QrCode> {
     );
 
     try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString(AppConstants.token);
+
       var url = "${AppConstants.baseUrl}${AppConstants.razorPayQr}";
       var response = await http.post(
         Uri.parse(url),
@@ -81,6 +85,7 @@ class _QrCodeState extends State<QrCode> {
         },
         body: jsonEncode({
           "order_id": widget.orderId,
+          "token": token, // ✅ token body me bhejna zaruri hai
         }),
       );
 
@@ -93,7 +98,6 @@ class _QrCodeState extends State<QrCode> {
           upiString = jsonResponse['qr_url'];
           qrId = jsonResponse['qr_id'];
           qrImageBase64 = jsonResponse['qr_image'];
-
         });
       } else {
         setState(() {
@@ -114,13 +118,20 @@ class _QrCodeState extends State<QrCode> {
     }
   }
 
+
+
   Future<void> checkPaymentApi() async {
-    HttpWithMiddleware http = HttpWithMiddleware.build(
-      middlewares: [HttpLogger(logLevel: LogLevel.BODY)],
-    );
     try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString(AppConstants.token);
+
+      HttpWithMiddleware http = HttpWithMiddleware.build(
+        middlewares: [HttpLogger(logLevel: LogLevel.BODY)],
+      );
+
+      // 🔑 Token ko query parameter me bhejo
       var url =
-          "${AppConstants.baseUrl}${AppConstants.checkPayment}/${qrId}/${widget.orderId}";
+          "${AppConstants.baseUrl}${AppConstants.checkPayment}/$qrId/${widget.orderId}?token=$token";
 
       debugPrint("🔗 CheckPayment URL: $url");
 
@@ -152,11 +163,12 @@ class _QrCodeState extends State<QrCode> {
           });
         }
       }
-
     } catch (error) {
       debugPrint("❌ Error in checkPaymentApi: $error");
     }
   }
+
+
 }
 
 Uint8List _base64ToImage(String base64String) {
