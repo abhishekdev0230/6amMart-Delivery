@@ -105,9 +105,9 @@ class ProfileController extends GetxController implements GetxService {
 
   void startLocationRecord() {
     _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      recordLocation();
-    });
+    // _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+    //   recordLocation();
+    // });
   }
 
   void stopLocationRecord() {

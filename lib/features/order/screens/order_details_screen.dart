@@ -968,7 +968,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                     .withValues(alpha: 0.5)),
                           ),
                           partialPay!
-                              ? DottedBorder(
+                              ?
+
+                         /* DottedBorder(
                                   color: Theme.of(context).primaryColor,
                                   strokeWidth: 1,
                                   strokeCap: StrokeCap.butt,
@@ -1044,8 +1046,78 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                           ]),
                                     ]),
                                   ),
-                                )
-                              : const SizedBox(),
+                                )*/
+                          ///..........change... update....dependency.....14sep.........
+                          DottedBorder(
+                            options: RectDottedBorderOptions(
+                              color: Theme.of(context).primaryColor,
+                              strokeWidth: 1,
+                              strokeCap: StrokeCap.butt,
+                              dashPattern: const [8, 5],
+                              padding: const EdgeInsets.all(0),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                              child: Ink(
+                                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                color: !restConfModel
+                                    ? Theme.of(context).primaryColor.withValues(alpha: 0.05)
+                                    : Colors.transparent,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'total_amount'.tr,
+                                          style: robotoMedium.copyWith(
+                                            fontSize: Dimensions.fontSizeLarge,
+                                            color: Theme.of(context).primaryColor,
+                                          ),
+                                        ),
+                                        Text(
+                                          PriceConverterHelper.convertPrice(total),
+                                          style: robotoMedium.copyWith(
+                                            fontSize: Dimensions.fontSizeLarge,
+                                            color: Theme.of(context).primaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'paid_by_wallet'.tr,
+                                          style: !restConfModel ? robotoMedium : robotoRegular,
+                                        ),
+                                        Text(
+                                          PriceConverterHelper.convertPrice(order.payments![0].amount),
+                                          style: !restConfModel ? robotoMedium : robotoRegular,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${order.payments?[1].paymentStatus == 'paid' ? 'paid_by'.tr : 'due_amount'.tr} (${order.payments![1].paymentMethod?.tr})',
+                                          style: !restConfModel ? robotoMedium : robotoRegular,
+                                        ),
+                                        Text(
+                                          PriceConverterHelper.convertPrice(order.payments![1].amount),
+                                          style: !restConfModel ? robotoMedium : robotoRegular,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                          : const SizedBox(),
                           SizedBox(height: partialPay ? 20 : 0),
                           !partialPay
                               ? Row(
@@ -1688,11 +1760,45 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                               ),
                                               const SizedBox(width: 10),
                                               IconButton(
-                                                icon: const Icon(Icons.qr_code_scanner, size: 35, color: Colors.black87),
+                                                icon: const Icon(
+                                                  Icons.qr_code_scanner,
+                                                  size: 35,
+                                                  color: Colors.black87,
+                                                ),
                                                 onPressed: () {
-                                                  Get.to(() => QrCode(orderId: widget.orderId.toString()));
+                                                  if (pickedUp! && !parcel!) {
+                                                    // Instead of directly opening VerifyDeliverySheetWidget, go to QR screen
+                                                    Get.to(() => QrCode(orderId: widget.orderId.toString()))?.then((paymentSuccess) {
+                                                      if (paymentSuccess == true) {
+                                                        // 👇 ye wahi flow hai jo abhi "swipe_to_deliver_order" pe hai
+                                                        if ((Get.find<SplashController>().configModel!.orderDeliveryVerification! || cod!)) {
+                                                          Get.bottomSheet(
+                                                            VerifyDeliverySheetWidget(
+                                                              currentOrderModel: controllerOrderModel,
+                                                              verify: Get.find<SplashController>().configModel!.orderDeliveryVerification,
+                                                              orderAmount: controllerOrderModel.orderAmount,
+                                                              cod: cod,
+                                                            ),
+                                                            isScrollControlled: true,
+                                                          );
+                                                        } else {
+                                                          Get.find<OrderController>().updateOrderStatus(
+                                                            controllerOrderModel,
+                                                            AppConstants.delivered,
+                                                            back: widget.fromLocationScreen ? false : true,
+                                                            gotoDashboard: widget.fromLocationScreen ? true : false,
+                                                          );
+                                                        }
+                                                      } else {
+                                                        showCustomSnackBar("❌ Payment required before delivery");
+                                                      }
+                                                    });
+                                                  } else {
+                                                    showCustomSnackBar("⚠️ QR required only for Deliver Order flow");
+                                                  }
                                                 },
                                               )
+
                                             ],
                                           )
                                       : const SizedBox()

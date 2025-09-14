@@ -186,7 +186,7 @@ class _DeliveryManRegistrationScreenState extends State<DeliveryManRegistrationS
                             bottom: 0, right: 0, top: 0, left: 0,
                             child: InkWell(
                               onTap: () => authController.pickDmImageForRegistration(true, false),
-                              child: DottedBorder(
+                              child:/* DottedBorder(
                                 color: Theme.of(context).primaryColor,
                                 strokeWidth: 1,
                                 strokeCap: StrokeCap.butt,
@@ -200,7 +200,25 @@ class _DeliveryManRegistrationScreenState extends State<DeliveryManRegistrationS
                                     child: Container(),
                                   ),
                                 ),
-                              ),
+                              ),*/
+                              DottedBorder(
+                                options: RectDottedBorderOptions(
+                                  color: Theme.of(context).primaryColor,
+                                  strokeWidth: 1,
+                                  strokeCap: StrokeCap.butt,
+                                  dashPattern: const [5, 5],
+                                  padding: const EdgeInsets.all(0),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                  child: Visibility(
+                                    visible: authController.pickedImage != null,
+                                    child: Center(
+                                      child: Container(),
+                                    ),
+                                  ),
+                                ),
+                              )
                             ),
                           ),
 
@@ -448,7 +466,9 @@ class _DeliveryManRegistrationScreenState extends State<DeliveryManRegistrationS
                                     showCustomSnackBar('maximum_image_limit_is_6'.tr);
                                   }
                                 },
-                                child: DottedBorder(
+                                child:
+                                ///..........change... update....dependency.....14sep.........
+                                /*DottedBorder(
                                   color: Theme.of(context).primaryColor,
                                   strokeWidth: 1,
                                   strokeCap: StrokeCap.butt,
@@ -463,12 +483,47 @@ class _DeliveryManRegistrationScreenState extends State<DeliveryManRegistrationS
                                       Text('upload_identity_image'.tr, style: robotoMedium.copyWith(color: Theme.of(context).disabledColor)),
                                     ]),
                                   ),
-                                ),
+                                ),*/
+                                DottedBorder(
+                                  options: RectDottedBorderOptions(
+                                    color: Theme.of(context).primaryColor,
+                                    strokeWidth: 1,
+                                    strokeCap: StrokeCap.butt,
+                                    dashPattern: const [5, 5],
+                                    padding: const EdgeInsets.all(5),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                    child: SizedBox(
+                                      height: 120,
+                                      width: double.infinity,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.camera_alt,
+                                            color: Theme.of(context).disabledColor,
+                                            size: 38,
+                                          ),
+                                          Text(
+                                            'upload_identity_image'.tr,
+                                            style: robotoMedium.copyWith(
+                                              color: Theme.of(context).disabledColor,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+
                               );
                             }
                             return Padding(
                               padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
-                              child: DottedBorder(
+                              child:
+                              ///..........change... update....dependency.....14sep.........
+                              /*DottedBorder(
                                 color: Theme.of(context).primaryColor,
                                 strokeWidth: 1,
                                 strokeCap: StrokeCap.butt,
@@ -496,7 +551,49 @@ class _DeliveryManRegistrationScreenState extends State<DeliveryManRegistrationS
                                     ),
                                   ),
                                 ]),
-                              ),
+                              ),*/
+
+                              DottedBorder(
+                                options: RectDottedBorderOptions(
+                                  color: Theme.of(context).primaryColor,
+                                  strokeWidth: 1,
+                                  dashPattern: const [5, 5],
+                                  strokeCap: StrokeCap.butt,
+                                  padding: const EdgeInsets.all(5),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                  child: Stack(
+                                    children: [
+                                      GetPlatform.isWeb
+                                          ? Image.network(
+                                        file!.path,
+                                        width: double.infinity,
+                                        height: 120,
+                                        fit: BoxFit.cover,
+                                      )
+                                          : Image.file(
+                                        File(file!.path),
+                                        width: double.infinity,
+                                        height: 120,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: InkWell(
+                                          onTap: () => authController.removeIdentityImage(index),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                            child: Icon(Icons.delete_forever, color: Colors.red),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+
                             );
                           },
                         ),

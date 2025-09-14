@@ -321,8 +321,13 @@ class MyTaskHandler extends TaskHandler {
   }
 
   // Called when the task is destroyed.
-  @override
+  ///..........change... update....dependency.....14sep.........
+  /*@override
   Future<void> onDestroy(DateTime timestamp) async {
+    stopService();
+  }*/
+  @override
+  Future<void> onDestroy(DateTime timestamp, bool isGraceful) async {
     stopService();
   }
 

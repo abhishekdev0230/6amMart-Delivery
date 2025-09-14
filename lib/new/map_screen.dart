@@ -150,8 +150,10 @@ class _MapScreenState extends State<MapScreen> {
 
     if (data['routes'].isNotEmpty) {
       final encodedPolyline = data['routes'][0]['overview_polyline']['points'];
-      final points = PolylinePoints().decodePolyline(encodedPolyline);
 
+      ///..........change... update....dependency.....14sep.........
+      // final points = PolylinePoints().decodePolyline(encodedPolyline);
+      final points = PolylinePoints.decodePolyline(encodedPolyline);
       _polylinePoints.clear();
       for (var point in points) {
         _polylinePoints.add(LatLng(point.latitude, point.longitude));

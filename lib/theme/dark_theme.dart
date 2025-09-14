@@ -1,3 +1,23 @@
+// import 'package:flutter/material.dart';
+//
+// ThemeData dark = ThemeData(
+//   fontFamily: 'Roboto',
+//   primaryColor: const Color(0xFF300006),
+//   secondaryHeaderColor: const Color(0xFF300006),
+//   disabledColor: const Color(0xFF6f7275),
+//   brightness: Brightness.dark,
+//   hintColor: const Color(0xFFbebebe),
+//   cardColor: Colors.black,
+//   textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: const Color(0xFF300006))),
+//   colorScheme: const ColorScheme.dark(primary: Color(0xFF300006), secondary: Color(0xFF300006)).copyWith(error: const Color(0xFF300006)),
+//   popupMenuTheme: const PopupMenuThemeData(color: Color(0xFF29292D), surfaceTintColor: Color(0xFF29292D)),
+//   dialogTheme: const DialogThemeData(surfaceTintColor: Colors.white10),
+//
+//   floatingActionButtonTheme: FloatingActionButtonThemeData(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(500))),
+//   bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black, height: 60, padding: EdgeInsets.symmetric(vertical: 5)),
+//   dividerTheme: const DividerThemeData(thickness: 0.2, color: Color(0xFFA0A4A8)),
+// );
+
 import 'package:flutter/material.dart';
 
 ThemeData dark = ThemeData(
@@ -8,12 +28,30 @@ ThemeData dark = ThemeData(
   brightness: Brightness.dark,
   hintColor: const Color(0xFFbebebe),
   cardColor: Colors.black,
-  textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: const Color(0xFF300006))),
-  colorScheme: const ColorScheme.dark(primary: Color(0xFF300006), secondary: Color(0xFF300006)).copyWith(error: const Color(0xFF300006)),
-  popupMenuTheme: const PopupMenuThemeData(color: Color(0xFF29292D), surfaceTintColor: Color(0xFF29292D)),
-  dialogTheme: const DialogThemeData(surfaceTintColor: Colors.white10),
-
-  floatingActionButtonTheme: FloatingActionButtonThemeData(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(500))),
-  bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black, height: 60, padding: EdgeInsets.symmetric(vertical: 5)),
-  dividerTheme: const DividerThemeData(thickness: 0.2, color: Color(0xFFA0A4A8)),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(foregroundColor: const Color(0xFF300006)),
+  ),
+  colorScheme: const ColorScheme.dark(
+    primary: Color(0xFF300006),
+    secondary: Color(0xFF300006),
+  ).copyWith(error: const Color(0xFF300006)),
+  popupMenuTheme: const PopupMenuThemeData(
+    color: Color(0xFF29292D),
+    surfaceTintColor: Color(0xFF29292D),
+  ),
+  dialogTheme: const DialogThemeData(
+    surfaceTintColor: Colors.white10,
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(500)),
+  ),
+  bottomAppBarTheme: const BottomAppBarThemeData(
+    color: Colors.black,
+    height: 60,
+    padding: EdgeInsets.symmetric(vertical: 5),
+  ),
+  dividerTheme: const DividerThemeData(
+    thickness: 0.2,
+    color: Color(0xFFA0A4A8),
+  ),
 );

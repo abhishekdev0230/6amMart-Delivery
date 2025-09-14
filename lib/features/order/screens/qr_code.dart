@@ -39,27 +39,73 @@ class _QrCodeState extends State<QrCode> {
     _timer?.cancel();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Scan & Pay")),
-      body: Center(
-        child: !isLoading
-            ? errorMessage != null
-                ? Text(errorMessage!, style: const TextStyle(color: Colors.red))
-            : qrImageBase64 != null
-            ? Image.memory(
-          _base64ToImage(qrImageBase64!),
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.cover,
-        )
-            : const Text("⏳ Generating QR...")
-
-            : const CircularProgressIndicator(),
+    return WillPopScope(
+      onWillPop: () async {
+        return await _onBackPressed();
+      },
+      child: Scaffold(
+        backgroundColor: Color(0xFFF4F9FF),
+        appBar: AppBar(
+          backgroundColor: Color(0xFFF4F9FF),
+          title: const Text("Scan & Pay"),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () async {
+              bool exit = await _onBackPressed();
+              if (exit) {
+                Navigator.of(context).pop();
+              }
+            },
+          ),
+        ),
+        body: Container(
+          color: Color(0xFFF4F9FF),
+          // color: Colors.red,
+          child: Center(
+            child: !isLoading
+                ? errorMessage != null
+                ? Text(
+              errorMessage!,
+              style: const TextStyle(color: Colors.red),
+            )
+                : qrImageBase64 != null
+                ? Image.memory(
+              _base64ToImage(qrImageBase64!),
+            )
+                : const Text("⏳ Generating QR...")
+                : const CircularProgressIndicator(),
+          ),
+        ),
       ),
     );
+  }
+
+  /// Back button press par dialog dikhane ka function
+  Future<bool> _onBackPressed() async {
+    bool? exitApp = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Exit Payment"),
+        content: const Text(
+            "Are you sure you want to go back? Payment may fail if not completed."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false), // Stay
+            child: const Text("No"),
+          ),
+          TextButton(
+            onPressed: () {
+              _timer?.cancel(); // ✅ Stop periodic payment check
+              Navigator.of(context).pop(true); // Exit allowed
+            },
+            child: const Text("Yes"),
+          ),
+        ],
+      ),
+    );
+    return exitApp ?? false;
   }
 
   Future<void> qrCodeApi() async {
@@ -85,7 +131,7 @@ class _QrCodeState extends State<QrCode> {
         },
         body: jsonEncode({
           "order_id": widget.orderId,
-          "token": token, // ✅ token body me bhejna zaruri hai
+          "token": token,
         }),
       );
 
@@ -129,7 +175,6 @@ class _QrCodeState extends State<QrCode> {
         middlewares: [HttpLogger(logLevel: LogLevel.BODY)],
       );
 
-      // 🔑 Token ko query parameter me bhejo
       var url =
           "${AppConstants.baseUrl}${AppConstants.checkPayment}/$qrId/${widget.orderId}?token=$token";
 
@@ -159,10 +204,18 @@ class _QrCodeState extends State<QrCode> {
           );
 
           Future.delayed(const Duration(seconds: 2), () {
-            if (mounted) Navigator.pop(context, qrId);
+            // if (mounted) Navigator.pop(context, qrId);
+            if (mounted) Navigator.pop(context, true);
+
           });
         }
-      }
+      }/*else{
+        Future.delayed(const Duration(seconds: 2), () {
+          // if (mounted) Navigator.pop(context, qrId);
+          if (mounted) Navigator.pop(context, true);
+
+        });
+      }*/
     } catch (error) {
       debugPrint("❌ Error in checkPaymentApi: $error");
     }
